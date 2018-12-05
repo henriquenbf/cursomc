@@ -14,13 +14,13 @@ import com.hf.cursomc.services.CategoriaService;
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
 
-	@Autowired
-	private CategoriaService categoriaService;
+    @Autowired
+    private CategoriaService categoriaService;
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Categoria categoria = categoriaService.buscar(id);
-		return ResponseEntity.ok(categoria);
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> find(@PathVariable Integer id) {
+        Categoria categoria = categoriaService.buscar(id);
+        return ResponseEntity.ok(categoria);
+    }
 
 }
