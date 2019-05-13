@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Cidade implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -24,7 +23,6 @@ public class Cidade implements Serializable {
     private Estado estado;
 
     public Cidade() {
-        super();
     }
 
     public Cidade(Integer id, String nome, Estado estado) {
