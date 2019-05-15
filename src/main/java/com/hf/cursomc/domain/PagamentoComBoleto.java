@@ -11,6 +11,7 @@ import com.hf.cursomc.domain.enums.EstadoPagamento;
 @Entity
 @JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
+
     private static final long serialVersionUID = 1L;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -22,8 +23,7 @@ public class PagamentoComBoleto extends Pagamento {
     public PagamentoComBoleto() {
     }
 
-    public PagamentoComBoleto(Integer id, EstadoPagamento estado, Pedido pedido, Date dataVencimento,
-            Date dataPagamento) {
+    public PagamentoComBoleto(Integer id, EstadoPagamento estado, Pedido pedido, Date dataVencimento, Date dataPagamento) {
         super(id, estado, pedido);
         this.dataPagamento = dataPagamento;
         this.dataVencimento = dataVencimento;
