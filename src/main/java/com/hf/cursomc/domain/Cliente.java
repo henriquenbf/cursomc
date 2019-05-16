@@ -19,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hf.cursomc.domain.enums.Perfil;
 import com.hf.cursomc.domain.enums.TipoCliente;
 
@@ -41,7 +40,6 @@ public class Cliente implements Serializable {
     @JsonIgnore
     private String senha;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
