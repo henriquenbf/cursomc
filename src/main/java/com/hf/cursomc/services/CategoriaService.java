@@ -21,4 +21,9 @@ public class CategoriaService {
                 String.format("Objeto com ID = %s não encontrado. Tipo = %s", id, Categoria.class.getName())));
     }
 
+    public Categoria insert(Categoria obj) {
+        obj.setId(null);
+        return categoriaRepo.save(obj);
+    }
+
 }
