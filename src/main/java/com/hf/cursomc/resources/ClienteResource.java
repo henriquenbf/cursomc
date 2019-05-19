@@ -1,5 +1,6 @@
 package com.hf.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hf.cursomc.domain.Cliente;
 import com.hf.cursomc.dto.ClienteDTO;
+import com.hf.cursomc.dto.ClienteNewDTO;
 import com.hf.cursomc.services.ClienteService;
 
 @RestController
@@ -32,8 +35,15 @@ public class ClienteResource {
         return ResponseEntity.ok().body(entity);
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO dto) {
+        Cliente entity = service.insert(service.fromDTO(dto));
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entity.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO dto, @PathVariable Integer id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody ClienteNewDTO dto, @PathVariable Integer id) {
         Cliente entity = service.fromDTO(dto);
         entity.setId(id);
         entity = service.update(entity);
