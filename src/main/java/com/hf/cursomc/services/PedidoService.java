@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.hf.cursomc.domain.ItemPedido;
 import com.hf.cursomc.domain.PagamentoComBoleto;
 import com.hf.cursomc.domain.Pedido;
-import com.hf.cursomc.domain.Produto;
 import com.hf.cursomc.domain.enums.EstadoPagamento;
 import com.hf.cursomc.exceptions.ObjectNotFoundException;
 import com.hf.cursomc.repositories.ItemPedidoRepository;
@@ -31,6 +30,12 @@ public class PedidoService {
     private ProdutoService produtoService;
 
     @Autowired
+    private ClienteService clienteService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private ItemPedidoRepository itemPedidoRepository;
 
     public Pedido find(Integer id) {
@@ -40,10 +45,9 @@ public class PedidoService {
     }
 
     public Pedido insert(Pedido pedido) {
-
         pedido.setId(null);
         pedido.setInstante(new Date());
-
+        pedido.setCliente(clienteService.find(pedido.getCliente().getId()));
         pedido.getPagamento().setEstado(EstadoPagamento.PENDENTE);
         pedido.getPagamento().setPedido(pedido);
 
@@ -51,18 +55,16 @@ public class PedidoService {
             PagamentoComBoleto pagto = (PagamentoComBoleto) pedido.getPagamento();
             boletoService.preencherPagamentoComNovoBoleto(pagto, pedido.getInstante());
         }
-
         pedido = pedidoRepo.save(pedido);
         pagamentoService.insert(pedido.getPagamento());
-
         for (ItemPedido item : pedido.getItens()) {
-            item.setDesconto(0D);
-            Produto produto = produtoService.find(item.getProduto().getId());
-            item.setPreco(produto.getPreco());
+            item.setDesconto(0.0);
+            item.setProduto(produtoService.find(item.getProduto().getId()));
+            item.setPreco(item.getProduto().getPreco());
             item.setPedido(pedido);
         }
         itemPedidoRepository.saveAll(pedido.getItens());
-
+        emailService.sendOrderConfirmationEmail(pedido);
         return pedido;
     }
 

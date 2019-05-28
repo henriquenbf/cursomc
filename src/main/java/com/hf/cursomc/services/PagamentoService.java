@@ -13,7 +13,7 @@ public class PagamentoService {
     private PagamentoRepository repository;
 
     public Pagamento insert(Pagamento obj) {
-        obj.setId(null);
+//        obj.setId(null);
         return repository.save(obj);
     }
 

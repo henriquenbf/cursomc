@@ -11,7 +11,6 @@ import com.hf.cursomc.domain.enums.EstadoPagamento;
 @Entity
 @JsonTypeName("pagamentoComBoleto")
 public class PagamentoComBoleto extends Pagamento {
-
     private static final long serialVersionUID = 1L;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
